@@ -1,5 +1,5 @@
 [project]
-name = "automated-aviation-data-quality-and-ingestion-pipeline"
+name = "flight-data-quality-and-ingestion-pipeline"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
