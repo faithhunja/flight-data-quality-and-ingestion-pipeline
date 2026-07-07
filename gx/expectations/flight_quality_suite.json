@@ -1,0 +1,47 @@
+{
+  "expectations": [
+    {
+      "id": "22557c16-5fc0-413b-b5f4-ff16d38af957",
+      "kwargs": {
+        "column": "icao24"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "662c2204-03b3-4ddd-a960-bb6a38ece1a1",
+      "kwargs": {
+        "column": "latitude"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "5790b136-2871-429a-9e16-ec69dbbed690",
+      "kwargs": {
+        "column": "longitude"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "76bba536-eb52-463f-9cf9-604686e43011",
+      "kwargs": {
+        "column": "velocity",
+        "type_": "float64"
+      },
+      "meta": {},
+      "severity": "critical",
+      "type": "expect_column_values_to_be_of_type"
+    }
+  ],
+  "id": "cf6498c7-5dda-4d86-87bd-983c43fc805e",
+  "meta": {
+    "great_expectations_version": "1.18.2"
+  },
+  "name": "flight_quality_suite",
+  "notes": null
+}
