@@ -1,0 +1,7 @@
+icao24,callsign,longitude,latitude,baro_altitude,on_ground,velocity
+04023e,SKK079  ,36.6703,-1.2885,5600.7,False,192.33
+04c1cc,FDS01   ,36.774,-1.2987,1828.8,False,51.49
+ac7268,5YSLP   ,36.7653,-1.3048,1805.94,False,47.67
+04c14b,KQA275  ,36.8389,-1.3842,2042.16,False,78.1
+04c2ab,5YSAR   ,36.7249,-1.2834,1805.94,False,56.1
+04c390,,36.9559,-1.1816,4434.84,False,118.78
