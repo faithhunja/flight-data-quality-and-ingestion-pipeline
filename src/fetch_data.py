@@ -11,7 +11,8 @@ PARAMS = {
 }
 
 URL = "https://opensky-network.org/api/states/all"
-filepath = "data/live_flights.csv"
+file_dir = "data"
+file_path = os.path.join(file_dir, "live_flights.csv")
 
 try:
     response = requests.get(URL, params=PARAMS)
@@ -29,12 +30,14 @@ try:
         df = pd.DataFrame(raw_data["states"], columns=columns)
         target_df = df[["icao24", "callsign", "longitude", "latitude", "baro_altitude", "on_ground", "velocity"]]
         
+        # Create file directory if it doesn't already exist
+        os.makedirs(file_dir, exist_ok=True)
         # Check if file exists to determine if we write headers
-        file_exists = os.path.exists(filepath)
+        file_exists = os.path.exists(file_path)
         
         # Open in append mode ('a')
-        target_df.to_csv(filepath, mode='a', index=False, header=not file_exists)
-        print(f"Appended {len(target_df)} new aircraft records to {filepath}.")
+        target_df.to_csv(file_path, mode='a', index=False, header=not file_exists)
+        print(f"Appended {len(target_df)} new aircraft records to {file_path}.")
     else:
         print("Airspace is completely empty right now. No data to append.")
 
