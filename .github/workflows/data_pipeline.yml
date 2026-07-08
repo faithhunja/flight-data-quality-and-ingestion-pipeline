@@ -2,6 +2,9 @@ name: Data Ingestion and Quality Pipeline
 
 on:
   workflow_dispatch:
+# Grants token permissions to save back the appended CSV file
+permissions:
+  contents: write
 
 jobs:
   run_pipeline:
@@ -12,20 +15,42 @@ jobs:
       # Clone the repository files onto the runner
       - name: Checkout Repository
         uses: actions/checkout@v4
+
       # Call the local custom composite action
       - name: Initialize Environment
         uses: ./.github/actions/setup-python-env
+
       # Run the flight data ingestion script
       - name: Fetch and Ingest Telemetry Data
         run: uv run src/fetch_data.py
+
+      # Executes the Great Expectations quality rules wrapper
+      - name: Run Great Expectations Quality Assessment
+        run: uv run run_validation.py
+
+      # Persists the generated report
+      - name: Persist Data Quality Docs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: great-expectations-data-docs
+          path: gx/uncommitted/data_docs/local_site/
+          retention-days: 3
+
+      # Saves changes permanently to version control if validation passes
+      - name: Commit and Push Updated CSV Data
+        if: success()
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/live_flights.csv
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Pipeline Auto-Append: New Flight Data Entries" && git push)
       
       - name: Log Ingestion Metadata via GitHub Script
+        if: always()
         uses: actions/github-script@v7
         with:
           script: |
             const message = `**Pipeline telemetry log notice**:\n- Ingestion executed on runner environment: \`ubuntu-latest\`\n- Triggered by user: @\${context.actor}`;
-            
             console.log("Successfully recorded API metadata packet event.");
-            
-            // Outputs metadata to the action summary page dashboard
             core.summary.addRaw(message).write();
